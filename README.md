@@ -3,9 +3,7 @@
 # Project Euler Solutions
 
 ```bash
-PROBLEM=problem1
-make run-$PROBLEM
-# or
-make $PROBLEM
-./build/$PROBLEM
+# run problem-number [args...]
+./run 1
+./run 21 400
 ```
