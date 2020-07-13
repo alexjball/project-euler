@@ -1,0 +1,19 @@
+#!/bin/bash
+
+cd $(dirname $0)
+
+set -e
+
+if [ "$#" -eq 0 ]; then
+    echo "Usage: run problem-number [args...]"
+    exit 0
+fi
+
+mkdir -p build
+
+PROBLEM_NUMBER=$1
+shift
+
+make build/problem$PROBLEM_NUMBER
+echo
+./build/problem$PROBLEM_NUMBER $@
