@@ -1,17 +1,16 @@
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 
 using namespace std;
 
-int main()
-{
-    int sum = 0;
-    for (int i = 0; i < 1000; i++) {
-        if (i % 3 == 0 || i % 5 == 0) {
-            sum += i;
-        }
+int main() {
+  int sum = 0;
+  for (int i = 0; i < 1000; i++) {
+    if (i % 3 == 0 || i % 5 == 0) {
+      sum += i;
     }
+  }
 
-    cout << "Sum: " << sum << endl;
+  cout << "Sum: " << sum << endl;
 }

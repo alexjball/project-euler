@@ -1,15 +1,15 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <sstream>
 #include <algorithm>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
 
 using namespace std;
 
 typedef vector<vector<int>> Grid;
 
-string raw_grid = 
-R"(08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
+string raw_grid =
+    R"(08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
 81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
 52 70 95 23 04 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91
@@ -31,65 +31,65 @@ R"(08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48)";
 
 Grid load_grid() {
-    istringstream iss(raw_grid);
-    vector<vector<int>> grid;
-    int parsed;
-    for (int row = 0; row < 20; row++) {
-        vector<int> r;
-        for (int col = 0; col < 20; col++) {
-            iss >> parsed;
-            r.push_back(parsed);
-        }
-        grid.push_back(r);
+  istringstream iss(raw_grid);
+  vector<vector<int>> grid;
+  int parsed;
+  for (int row = 0; row < 20; row++) {
+    vector<int> r;
+    for (int col = 0; col < 20; col++) {
+      iss >> parsed;
+      r.push_back(parsed);
     }
-    return grid;
+    grid.push_back(r);
+  }
+  return grid;
 }
 
 struct Products {
-    Grid grid;
-    int n_row;
-    int n_col;
+  Grid grid;
+  int n_row;
+  int n_col;
 
-    Products(Grid grid) {
-        this->grid = grid;
-        n_row = grid.size();
-        n_col = n_row > 0 ? grid[0].size() : 0;
+  Products(Grid grid) {
+    this->grid = grid;
+    n_row = grid.size();
+    n_col = n_row > 0 ? grid[0].size() : 0;
+  }
 
+  int el(int row, int col) {
+    if (row < n_row && col < n_col) {
+      return grid[row][col];
     }
+    return 0;
+  }
 
-    int el(int row, int col) {
-        if (row < n_row && col < n_col) {
-            return grid[row][col];
-        }
-        return 0;
-    }
+  int diagonal_down(int r, int c) {
+    return el(r, c) * el(r + 1, c + 1) * el(r + 2, c + 2) * el(r + 3, c + 3);
+  }
 
-    int diagonal_down(int r, int c) {
-        return el(r, c) * el(r + 1, c + 1) * el(r + 2, c + 2) * el(r + 3, c + 3);
-    }
+  int diagonal_up(int r, int c) {
+    return el(r, c) * el(r + 1, c - 1) * el(r + 2, c - 2) * el(r + 3, c - 3);
+  }
 
-    int diagonal_up(int r, int c) {
-        return el(r, c) * el(r + 1, c - 1) * el(r + 2, c - 2) * el(r + 3, c - 3);
-    }
-    
-    int horizontal(int r, int c) {
-        return el(r, c) * el(r + 1, c) * el(r + 2, c) * el(r + 3, c);
-    }
+  int horizontal(int r, int c) {
+    return el(r, c) * el(r + 1, c) * el(r + 2, c) * el(r + 3, c);
+  }
 
-    int vertical(int r, int c) {
-        return el(r, c) * el(r, c + 1) * el(r, c + 2) * el(r, c + 3);
-    }
+  int vertical(int r, int c) {
+    return el(r, c) * el(r, c + 1) * el(r, c + 2) * el(r, c + 3);
+  }
 };
 
-int main()
-{
-    Products products(load_grid());
-    int max_product = 0;
-    for (int r = 0; r < 20; r++) {
-        for (int c = 0; c < 20; c++) {
-           max_product = max({max_product, products.diagonal_up(r, c), products.diagonal_down(r, c), products.horizontal(r, c), products.vertical(r, c)});
-        }
+int main() {
+  Products products(load_grid());
+  int max_product = 0;
+  for (int r = 0; r < 20; r++) {
+    for (int c = 0; c < 20; c++) {
+      max_product = max({max_product, products.diagonal_up(r, c),
+                         products.diagonal_down(r, c),
+                         products.horizontal(r, c), products.vertical(r, c)});
     }
+  }
 
-    cout << max_product << endl;
+  cout << max_product << endl;
 }
