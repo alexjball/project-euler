@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include <cassert>
+#include <chrono>
 #include <cmath>
 #include <iostream>
 #include <map>
@@ -7,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+using namespace std::chrono;
 using namespace std;
 
 /**
@@ -22,17 +24,30 @@ using namespace std;
  * 1) generate a list of all primes below some max (O(n^1.5))
  * 2) Find all 2-cliques with brute force (O(n^2))
  * 3) Expand the k-cliques by checking for higher primes that form pairs with
- *    all members of the k-cliques 4) Repeat until 5 cliques are formed. 5)
- *    Return the 5-clique with the smallest sum.
+ *    all members of the k-cliques
+ * 4) Repeat until 5 cliques are formed.
+ * 5) Return the 5-clique with the smallest sum.
  */
 
 typedef multimap<int, int> MapType;
 typedef vector<int> Clique;
 
+void log_time(string name, function<void()> work) {
+  auto start = high_resolution_clock::now();
+  work();
+  auto end = high_resolution_clock::now();
+
+  auto duration = duration_cast<milliseconds>(end - start);
+
+  cout << name << " took " << duration.count() << " ms" << endl;
+}
+
 struct Problem60 {
   vector<int> primes;
   MapType pairs_by_min;
   vector<Clique> cliques;
+
+  Clique smallest_clique;
 
   int maxPrime;
   int maxCliqueSize;
@@ -42,31 +57,31 @@ struct Problem60 {
     this->maxCliqueSize = maxCliqueSize;
   }
 
-  pair<int, vector<int>> solve() {
-    primes = primes_below(maxPrime);
-    compute_2_cliques();
-    for (int i = 3; i <= this->maxCliqueSize; i++) {
-      expand_cliques();
+  Clique solve() {
+    log_time("generate_primes", [this]() { primes = primes_below(maxPrime); });
+    log_time("compute 2-cliques", [this]() { compute_2_cliques(); });
+    for (int i = 3; i <= maxCliqueSize; i++) {
+      log_time("expand cliques", [this]() { expand_cliques(); });
     }
-    return smallest_clique();
+    log_time("find smallest clique", [this]() { find_smallest_clique(); });
+
+    return smallest_clique;
   }
 
-  pair<int, Clique> smallest_clique() {
+  void find_smallest_clique() {
     int smallest_sum = INT_MAX;
-    Clique smallest_clique;
-    for (auto &clique : this->cliques) {
+    for (auto &clique : cliques) {
       int sum = accumulate(clique.begin(), clique.end(), 0);
       if (sum < smallest_sum) {
         smallest_clique = clique;
         smallest_sum = sum;
       }
     }
-    return pair<int, Clique>(smallest_sum, smallest_clique);
   }
 
   void expand_cliques() {
     vector<Clique> expanded_cliques;
-    for (auto &clique : this->cliques) {
+    for (auto &clique : cliques) {
       MapType current_el_by_candidate;
       pair<MapType::iterator, MapType::iterator> ret;
 
@@ -110,8 +125,9 @@ struct Problem60 {
   }
 
   static bool is_concat_prime(int a, int b) {
-    return is_prime(stoi(to_string(a) + to_string(b))) &&
-           is_prime(stoi(to_string(b) + to_string(a)));
+    // TODO: Use a table to more efficiently check for primeness
+    return is_prime(stoull(to_string(a) + to_string(b))) &&
+           is_prime(stoull(to_string(b) + to_string(a)));
   }
 
   static vector<int> primes_below(int max) {
@@ -131,9 +147,9 @@ struct Problem60 {
     return primes;
   }
 
-  static bool is_prime(int n) {
-    int limit = (int)sqrt(n);
-    for (int i = 2; i <= limit; i++) {
+  static bool is_prime(unsigned long long n) {
+    unsigned long long limit = (unsigned long long)sqrt(n);
+    for (unsigned long long i = 2; i <= limit; i++) {
       if (n % i == 0) {
         return false;
       }
@@ -145,9 +161,10 @@ struct Problem60 {
 int main() {
   Problem60 solution(10000, 5);
 
-  pair<int, vector<int>> result = solution.solve();
-  cout << "min sum " << result.first << endl << "clique [";
-  for (int i : result.second) {
+  Clique smallest = solution.solve();
+  int sum = accumulate(smallest.begin(), smallest.end(), 0);
+  cout << "min sum " << sum << endl << "clique [";
+  for (int i : smallest) {
     cout << i << " ";
   }
   cout << "]" << endl;

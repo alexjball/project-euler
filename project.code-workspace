@@ -8,7 +8,9 @@
     "editor.formatOnSave": true,
     "files.associations": {
       "*.cu": "cpp",
-      "vector": "cpp"
+      "vector": "cpp",
+      "bitset": "cpp",
+      "string_view": "cpp"
     }
   }
 }
