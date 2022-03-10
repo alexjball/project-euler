@@ -27,9 +27,9 @@ cdef class CountingDigits:
         self.d = d
         self.observer = observer
 
-    cpdef compute(self, long max_s = <long>1e12):
+    cpdef compute(self, long max_s = -1, long max_n = -1):
         while True:
-            if self.s > max_s:
+            if (max_s != -1 and self.s > max_s) or (max_n != -1 and self.n > max_n):
                 break
             self.update_f()
             self.update_s()
