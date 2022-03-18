@@ -6,6 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+itertools="0.10.3"
 
 [[bin]]
 name = "problem2"
@@ -26,3 +27,7 @@ path = "src/problem35.rs"
 [[bin]]
 name = "problem62"
 path = "src/problem62.rs"
+
+[[bin]]
+name = "problem68"
+path = "src/problem68.rs"
