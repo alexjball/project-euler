@@ -2,6 +2,7 @@ use std::{collections::HashMap, env::Args, time::Instant};
 
 mod common;
 
+mod problem107;
 mod problem2;
 mod problem3;
 mod problem35;
@@ -19,6 +20,7 @@ fn problems() -> HashMap<i32, fn()> {
         (62, problem62::run),
         (68, problem68::run),
         (80, problem80::run),
+        (107, problem107::run),
     ])
 }
 
