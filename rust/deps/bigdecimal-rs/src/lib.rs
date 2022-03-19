@@ -415,7 +415,7 @@ impl BigDecimal {
         // }
 
         // TODO: Use context variable to set precision
-        let max_precision = 100;
+        let max_precision = 200;
 
         let next_iteration = move |r: BigDecimal| {
             // division needs to be precise to (at least) one extra digit
