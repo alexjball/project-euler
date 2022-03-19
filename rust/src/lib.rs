@@ -1,4 +1,4 @@
-use std::{collections::HashMap, env::Args};
+use std::{collections::HashMap, env::Args, time::Instant};
 
 mod common;
 
@@ -40,7 +40,14 @@ impl Config {
 }
 
 pub fn run(config: Config) {
-    problems()
+    let problems = problems();
+    let run = problems
         .get(&config.problem)
-        .unwrap_or_else(|| panic!("Unimplemented problem"))()
+        .unwrap_or_else(|| panic!("Unimplemented problem"));
+
+    let start = Instant::now();
+    run();
+    let end = Instant::now();
+
+    println!("\n{:?} elapsed", end.duration_since(start))
 }
