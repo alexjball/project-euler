@@ -1,6 +1,7 @@
+use crate::common::primes_below;
 use std::{collections::HashSet, time::Instant};
 
-fn main() {
+pub fn run() {
     let now = Instant::now();
     let limit = 1_000_000;
     let primes: HashSet<i64> = primes_below(limit).into_iter().collect();
@@ -40,22 +41,4 @@ fn rotate(s: String) -> String {
     let mut r = c.collect::<String>();
     r.push(first.unwrap());
     r
-}
-
-fn primes_below(limit: i64) -> Vec<i64> {
-    let mut is_prime: Vec<bool> = vec![true; limit as usize];
-    let mut primes: Vec<i64> = Vec::new();
-
-    for n in 2..is_prime.len() {
-        if is_prime[n] {
-            primes.push(n as i64);
-            let mut f = n + n;
-            while f < is_prime.len() {
-                is_prime[f] = false;
-                f += n;
-            }
-        }
-    }
-
-    return primes;
 }

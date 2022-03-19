@@ -1,7 +1,7 @@
 use itertools::Itertools;
 use std::time::Instant;
 
-fn main() {
+pub fn run() {
     let x: Vec<u64> = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     // let x: Vec<u64> = vec![1, 2, 3, 4, 5, 6];
 

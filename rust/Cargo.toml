@@ -1,33 +1,7 @@
 [package]
-name = "project-euler"
+name = "euler"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 itertools="0.10.3"
-
-[[bin]]
-name = "problem2"
-path = "src/problem2.rs"
-
-[[bin]]
-name = "problem3"
-path = "src/problem3.rs"
-
-[[bin]]
-name = "problem4"
-path = "src/problem4.rs"
-
-[[bin]]
-name = "problem35"
-path = "src/problem35.rs"
-
-[[bin]]
-name = "problem62"
-path = "src/problem62.rs"
-
-[[bin]]
-name = "problem68"
-path = "src/problem68.rs"

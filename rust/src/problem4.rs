@@ -1,4 +1,4 @@
-fn main() {
+pub fn run() {
     let mut largest: (i32, i32, i32) = (0, 0, 0);
     for n1 in 100..1000 {
         for n2 in n1..1000 {

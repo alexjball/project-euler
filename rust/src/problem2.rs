@@ -1,4 +1,4 @@
-fn main() {
+pub fn run() {
     let mut sum = 0;
     let mut a_n2;
     let mut a_n1 = 1;

@@ -1,6 +1,6 @@
 use std::{collections::HashMap, time::Instant};
 
-fn main() {
+pub fn run() {
     let now = Instant::now();
     let k = 5;
     let max_n = 20000;
