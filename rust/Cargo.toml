@@ -5,3 +5,7 @@ edition = "2021"
 
 [dependencies]
 itertools="0.10.3"
+bigdecimal = "0.3.0"
+
+[patch.crates-io]
+bigdecimal = { path = "./deps/bigdecimal-rs" }
