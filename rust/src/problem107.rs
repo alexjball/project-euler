@@ -1,7 +1,7 @@
 use std::{collections::HashSet, fmt::Display, fs, time::Instant};
 
 pub fn run() {
-    let example = "data/p107_example.txt";
+    // let example = "data/p107_example.txt";
     let actual = "data/p107_network.txt";
     let adj = AdjacencyList::from_file(actual);
 
@@ -12,17 +12,12 @@ pub fn run() {
 
 struct Prim {
     graph: AdjacencyList,
-    mst: AdjacencyList,
     mst_sum: i32,
 }
 
 impl Prim {
     fn compute(graph: AdjacencyList) -> i32 {
-        let mut prim = Prim {
-            mst: AdjacencyList::new(graph.n_vertices),
-            graph,
-            mst_sum: 0,
-        };
+        let mut prim = Prim { graph, mst_sum: 0 };
 
         prim.run();
 
@@ -71,13 +66,6 @@ struct AdjacencyList {
 }
 
 impl AdjacencyList {
-    fn new(n_vertices: i32) -> AdjacencyList {
-        AdjacencyList {
-            n_vertices,
-            weights: vec![vec![0; n_vertices as usize]; n_vertices as usize],
-        }
-    }
-
     fn from_file(file: &str) -> AdjacencyList {
         let weights = fs::read_to_string(file)
             .unwrap()
@@ -102,10 +90,6 @@ impl AdjacencyList {
             weights,
             n_vertices: n_vertices as i32,
         };
-    }
-
-    pub fn get(&self, row: usize, col: usize) -> Option<&i32> {
-        self.weights.get(row).and_then(|row| row.get(col))
     }
 
     pub fn get_edges(&self, v: i32) -> Option<&Vec<i32>> {
