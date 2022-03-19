@@ -8,6 +8,7 @@ mod problem35;
 mod problem4;
 mod problem62;
 mod problem68;
+mod problem80;
 
 fn problems() -> HashMap<i32, fn()> {
     HashMap::from([
@@ -17,6 +18,7 @@ fn problems() -> HashMap<i32, fn()> {
         (35, problem35::run),
         (62, problem62::run),
         (68, problem68::run),
+        (80, problem80::run),
     ])
 }
 
